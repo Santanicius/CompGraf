@@ -30,10 +30,11 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.gb_primitivas = new System.Windows.Forms.GroupBox();
-            this.rb_retas = new System.Windows.Forms.RadioButton();
-            this.rb_elipse = new System.Windows.Forms.RadioButton();
-            this.rb_circunferencia = new System.Windows.Forms.RadioButton();
+            this.rb_dda = new System.Windows.Forms.RadioButton();
+            this.rb_bresenham = new System.Windows.Forms.RadioButton();
+            this.rb_eqreta = new System.Windows.Forms.RadioButton();
             this.pb_quadro = new System.Windows.Forms.PictureBox();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.gb_primitivas.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb_quadro)).BeginInit();
             this.SuspendLayout();
@@ -41,73 +42,78 @@
             // gb_primitivas
             // 
             this.gb_primitivas.BackColor = System.Drawing.Color.Transparent;
-            this.gb_primitivas.Controls.Add(this.rb_circunferencia);
-            this.gb_primitivas.Controls.Add(this.rb_elipse);
-            this.gb_primitivas.Controls.Add(this.rb_retas);
+            this.gb_primitivas.Controls.Add(this.rb_dda);
+            this.gb_primitivas.Controls.Add(this.rb_bresenham);
+            this.gb_primitivas.Controls.Add(this.rb_eqreta);
             this.gb_primitivas.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.gb_primitivas.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gb_primitivas.ForeColor = System.Drawing.Color.White;
-            this.gb_primitivas.Location = new System.Drawing.Point(12, 12);
+            this.gb_primitivas.Location = new System.Drawing.Point(9, 12);
             this.gb_primitivas.Name = "gb_primitivas";
-            this.gb_primitivas.Size = new System.Drawing.Size(166, 103);
+            this.gb_primitivas.Size = new System.Drawing.Size(190, 103);
             this.gb_primitivas.TabIndex = 0;
             this.gb_primitivas.TabStop = false;
-            this.gb_primitivas.Text = "Primitivas Gráficas";
+            this.gb_primitivas.Text = "Retas";
             // 
-            // rb_retas
+            // rb_dda
             // 
-            this.rb_retas.AutoSize = true;
-            this.rb_retas.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rb_retas.ForeColor = System.Drawing.Color.White;
-            this.rb_retas.Location = new System.Drawing.Point(21, 20);
-            this.rb_retas.Name = "rb_retas";
-            this.rb_retas.Size = new System.Drawing.Size(59, 20);
-            this.rb_retas.TabIndex = 0;
-            this.rb_retas.TabStop = true;
-            this.rb_retas.Text = "Reta";
-            this.rb_retas.UseVisualStyleBackColor = true;
+            this.rb_dda.AutoSize = true;
+            this.rb_dda.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rb_dda.ForeColor = System.Drawing.Color.White;
+            this.rb_dda.Location = new System.Drawing.Point(21, 43);
+            this.rb_dda.Name = "rb_dda";
+            this.rb_dda.Size = new System.Drawing.Size(53, 19);
+            this.rb_dda.TabIndex = 2;
+            this.rb_dda.TabStop = true;
+            this.rb_dda.Text = "DDA";
+            this.rb_dda.UseVisualStyleBackColor = true;
             // 
-            // rb_elipse
+            // rb_bresenham
             // 
-            this.rb_elipse.AutoSize = true;
-            this.rb_elipse.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rb_elipse.ForeColor = System.Drawing.Color.White;
-            this.rb_elipse.Location = new System.Drawing.Point(21, 66);
-            this.rb_elipse.Name = "rb_elipse";
-            this.rb_elipse.Size = new System.Drawing.Size(70, 20);
-            this.rb_elipse.TabIndex = 1;
-            this.rb_elipse.TabStop = true;
-            this.rb_elipse.Text = "Elipse";
-            this.rb_elipse.UseVisualStyleBackColor = true;
+            this.rb_bresenham.AutoSize = true;
+            this.rb_bresenham.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rb_bresenham.ForeColor = System.Drawing.Color.White;
+            this.rb_bresenham.Location = new System.Drawing.Point(21, 66);
+            this.rb_bresenham.Name = "rb_bresenham";
+            this.rb_bresenham.Size = new System.Drawing.Size(98, 19);
+            this.rb_bresenham.TabIndex = 1;
+            this.rb_bresenham.TabStop = true;
+            this.rb_bresenham.Text = "Bresenham";
+            this.rb_bresenham.UseVisualStyleBackColor = true;
             // 
-            // rb_circunferencia
+            // rb_eqreta
             // 
-            this.rb_circunferencia.AutoSize = true;
-            this.rb_circunferencia.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rb_circunferencia.ForeColor = System.Drawing.Color.White;
-            this.rb_circunferencia.Location = new System.Drawing.Point(21, 43);
-            this.rb_circunferencia.Name = "rb_circunferencia";
-            this.rb_circunferencia.Size = new System.Drawing.Size(125, 20);
-            this.rb_circunferencia.TabIndex = 2;
-            this.rb_circunferencia.TabStop = true;
-            this.rb_circunferencia.Text = "Circunferência";
-            this.rb_circunferencia.UseVisualStyleBackColor = true;
+            this.rb_eqreta.AutoSize = true;
+            this.rb_eqreta.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rb_eqreta.ForeColor = System.Drawing.Color.White;
+            this.rb_eqreta.Location = new System.Drawing.Point(21, 20);
+            this.rb_eqreta.Name = "rb_eqreta";
+            this.rb_eqreta.Size = new System.Drawing.Size(169, 19);
+            this.rb_eqreta.TabIndex = 0;
+            this.rb_eqreta.TabStop = true;
+            this.rb_eqreta.Text = "Equação Real da Reta";
+            this.rb_eqreta.UseVisualStyleBackColor = true;
+            this.rb_eqreta.CheckedChanged += new System.EventHandler(this.rb_retas_CheckedChanged);
             // 
             // pb_quadro
             // 
             this.pb_quadro.BackColor = System.Drawing.Color.White;
-            this.pb_quadro.Location = new System.Drawing.Point(184, 12);
+            this.pb_quadro.Location = new System.Drawing.Point(208, 12);
             this.pb_quadro.Name = "pb_quadro";
-            this.pb_quadro.Size = new System.Drawing.Size(604, 426);
+            this.pb_quadro.Size = new System.Drawing.Size(610, 444);
             this.pb_quadro.TabIndex = 1;
             this.pb_quadro.TabStop = false;
+            this.pb_quadro.Click += new System.EventHandler(this.pb_quadro_Click);
+            this.pb_quadro.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pb_clicou);
+            this.pb_quadro.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pb_pressionado);
+            this.pb_quadro.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pb_soltou);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(58)))), ((int)(((byte)(64)))));
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(830, 468);
             this.Controls.Add(this.gb_primitivas);
             this.Controls.Add(this.pb_quadro);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -123,10 +129,11 @@
 
         #endregion
         private System.Windows.Forms.GroupBox gb_primitivas;
-        private System.Windows.Forms.RadioButton rb_circunferencia;
-        private System.Windows.Forms.RadioButton rb_elipse;
-        private System.Windows.Forms.RadioButton rb_retas;
+        private System.Windows.Forms.RadioButton rb_dda;
+        private System.Windows.Forms.RadioButton rb_bresenham;
+        private System.Windows.Forms.RadioButton rb_eqreta;
         private System.Windows.Forms.PictureBox pb_quadro;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }
 

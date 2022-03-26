@@ -8,3 +8,23 @@ G:\Meu Drive\Faculdade\7 TERMO\Computação Gráfica\CompGraf\CompGrafApp\CompGr
 G:\Meu Drive\Faculdade\7 TERMO\Computação Gráfica\CompGraf\CompGrafApp\CompGrafApp\obj\Debug\CompGrafApp.csproj.CoreCompileInputs.cache
 G:\Meu Drive\Faculdade\7 TERMO\Computação Gráfica\CompGraf\CompGrafApp\CompGrafApp\obj\Debug\CompGrafApp.exe
 G:\Meu Drive\Faculdade\7 TERMO\Computação Gráfica\CompGraf\CompGrafApp\CompGrafApp\obj\Debug\CompGrafApp.pdb
+C:\Users\maria\Documents\Termo7\IA II\TrabCG1Bim\CompGraf\CompGrafApp\CompGrafApp\bin\Debug\CompGrafApp.exe.config
+C:\Users\maria\Documents\Termo7\IA II\TrabCG1Bim\CompGraf\CompGrafApp\CompGrafApp\bin\Debug\CompGrafApp.exe
+C:\Users\maria\Documents\Termo7\IA II\TrabCG1Bim\CompGraf\CompGrafApp\CompGrafApp\bin\Debug\CompGrafApp.pdb
+C:\Users\maria\Documents\Termo7\IA II\TrabCG1Bim\CompGraf\CompGrafApp\CompGrafApp\obj\Debug\CompGrafApp.csproj.AssemblyReference.cache
+C:\Users\maria\Documents\Termo7\IA II\TrabCG1Bim\CompGraf\CompGrafApp\CompGrafApp\obj\Debug\CompGrafApp.Form1.resources
+C:\Users\maria\Documents\Termo7\IA II\TrabCG1Bim\CompGraf\CompGrafApp\CompGrafApp\obj\Debug\CompGrafApp.Properties.Resources.resources
+C:\Users\maria\Documents\Termo7\IA II\TrabCG1Bim\CompGraf\CompGrafApp\CompGrafApp\obj\Debug\CompGrafApp.csproj.GenerateResource.cache
+C:\Users\maria\Documents\Termo7\IA II\TrabCG1Bim\CompGraf\CompGrafApp\CompGrafApp\obj\Debug\CompGrafApp.csproj.CoreCompileInputs.cache
+C:\Users\maria\Documents\Termo7\IA II\TrabCG1Bim\CompGraf\CompGrafApp\CompGrafApp\obj\Debug\CompGrafApp.exe
+C:\Users\maria\Documents\Termo7\IA II\TrabCG1Bim\CompGraf\CompGrafApp\CompGrafApp\obj\Debug\CompGrafApp.pdb
+C:\Users\maria\Documents\Termo7\Computação Gráfica\TrabCG1Bim\CompGraf\CompGrafApp\CompGrafApp\bin\Debug\CompGrafApp.exe.config
+C:\Users\maria\Documents\Termo7\Computação Gráfica\TrabCG1Bim\CompGraf\CompGrafApp\CompGrafApp\bin\Debug\CompGrafApp.exe
+C:\Users\maria\Documents\Termo7\Computação Gráfica\TrabCG1Bim\CompGraf\CompGrafApp\CompGrafApp\bin\Debug\CompGrafApp.pdb
+C:\Users\maria\Documents\Termo7\Computação Gráfica\TrabCG1Bim\CompGraf\CompGrafApp\CompGrafApp\obj\Debug\CompGrafApp.csproj.AssemblyReference.cache
+C:\Users\maria\Documents\Termo7\Computação Gráfica\TrabCG1Bim\CompGraf\CompGrafApp\CompGrafApp\obj\Debug\CompGrafApp.Form1.resources
+C:\Users\maria\Documents\Termo7\Computação Gráfica\TrabCG1Bim\CompGraf\CompGrafApp\CompGrafApp\obj\Debug\CompGrafApp.Properties.Resources.resources
+C:\Users\maria\Documents\Termo7\Computação Gráfica\TrabCG1Bim\CompGraf\CompGrafApp\CompGrafApp\obj\Debug\CompGrafApp.csproj.GenerateResource.cache
+C:\Users\maria\Documents\Termo7\Computação Gráfica\TrabCG1Bim\CompGraf\CompGrafApp\CompGrafApp\obj\Debug\CompGrafApp.csproj.CoreCompileInputs.cache
+C:\Users\maria\Documents\Termo7\Computação Gráfica\TrabCG1Bim\CompGraf\CompGrafApp\CompGrafApp\obj\Debug\CompGrafApp.exe
+C:\Users\maria\Documents\Termo7\Computação Gráfica\TrabCG1Bim\CompGraf\CompGrafApp\CompGrafApp\obj\Debug\CompGrafApp.pdb
