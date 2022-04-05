@@ -416,7 +416,7 @@ namespace CompGrafApp
                                     pilha.Push(new Point(x, y));
                     }
                 }
-                if (!isWhite(cor) && poligonos[i].Cor.IsEmpty)
+                if (!isWhite(cor)) //&& poligonos[i].Cor.IsEmpty)
                 {
                     poligonos[i].Cor = cor;
                     poligonos[i].Foodfill = true;
@@ -755,7 +755,7 @@ namespace CompGrafApp
                 L = new ListaET();
                 preencherET(poligonos[i]);
                 construirAET(cor);
-                if (!isWhite(cor) && poligonos[i].Cor.IsEmpty)
+                if (!isWhite(cor))// && poligonos[i].Cor.IsEmpty)
                 {
                     poligonos[i].Cor = cor;
                     poligonos[i].Scanline = true;
