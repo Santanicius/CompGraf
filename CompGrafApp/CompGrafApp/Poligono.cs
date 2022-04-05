@@ -13,11 +13,17 @@ namespace CompGrafApp
         private List<Point> p_originais;
         private double[,] ma;
         private double cx, cy;
+        private bool foodfill, scanline;
+        private Color cor;
+        private List<Point> semente, semente_original;
         public Poligono(List<Point> lpontos)
         {
+            Foodfill = Scanline = false;
             pontos = new List<Point>(lpontos);
             p_originais = new List<Point>(lpontos);
             ma = new double[3, 3] { { 1, 0, 0 }, { 0, 1, 0 }, { 0, 0, 1 } };
+            Semente = new List<Point>();
+            Semente_original = new List<Point>();
             calcCentro();
         }
         public Poligono() : this(new List<Point>())
@@ -26,10 +32,39 @@ namespace CompGrafApp
         public List<Point> Pontos { get => pontos; set => pontos = value; }
         public double Cx { get => cx; }
         public double Cy { get => cy; }
+        public bool Foodfill { get => foodfill; set => foodfill = value; }
+        public bool Scanline { get => scanline; set => scanline = value; }
+        public Color Cor { get => cor; set => cor = value; }
+        public List<Point> Semente { get => semente; set => semente = value; }
+        public List<Point> Semente_original { get => semente_original; set => semente_original = value; }
+
+        public double maxY()
+        {
+            double max = pontos[0].Y;
+            foreach(Point p in pontos)
+            {
+                max = Math.Max(p.Y, max);
+            }
+            return max;
+        }
+        public double minY()
+        {
+            double min = pontos[0].Y;
+            foreach (Point p in pontos)
+            {
+                min = Math.Min(p.Y, min);
+            }
+            return min;
+        }
         public void inserir(Point p)
         {
             pontos.Add(p);
             p_originais.Add(p);
+        }
+        public void inserirSemente(Point s)
+        {
+            Semente_original.Add(s);
+            Semente.Add(s);
         }
         public void calcCentro()
         {
@@ -54,16 +89,34 @@ namespace CompGrafApp
         }
         public void rotacionar(double graus)
         {
-            double[,] mtemp;
             double[,] mr = new double[3, 3] { {Math.Cos(radianos(graus)),-Math.Sin(radianos(graus)),0},{Math.Sin(radianos(graus)),Math.Cos(radianos(graus)),0},{0,0,1} };
 
             atualizar_pontos(mr);
         }
-
+        public void reflexaoX()
+        {
+            Console.WriteLine("Reflexao x");
+            double[,] mr = new double[3, 3] { { 1, 0, 0 }, { 0, -1, 0 }, { 0, 0, 1 } };
+            atualizar_pontos(mr);
+        }
+        public void reflexaoY()
+        {
+            Console.WriteLine("Reflexao y");
+            double[,] mr = new double[3, 3] { { -1, 0, 0 }, { 0, 1, 0 }, { 0, 0, 1 } };
+            atualizar_pontos(mr);
+        }
+        public void cisalhamentoY(double a)
+        {
+            double[,] mc = new double[3, 3] { { 1, 0, 0 }, { a, 1, 0 }, { 0, 0, 1 } };
+            atualizar_pontos(mc);
+        }
+        public void cisalhamentoX(double b)
+        {
+            double[,] mc = new double[3, 3] { { 1, b, 0 }, { 0, 1, 0 }, { 0, 0, 1 } };
+            atualizar_pontos(mc);
+        }
         public void escala(double sx, double sy)
         {
-            double[,] mtemp;
-            Console.WriteLine("sx: " + sx + " sy: " + sy);
             double[,] me = new double[3, 3] { { sx, 0, 0 }, { 0, sy, 0}, { 0, 0, 1 } };
 
             atualizar_pontos(me);
@@ -77,15 +130,27 @@ namespace CompGrafApp
         }
         private void atualizar_pontos(double [,] mt)
         {
-            Console.WriteLine("Matriz escala: ");
-            exibirMat(mt);
             double[,] mtemp;
             ma = mult(mt, ma);
+
             for (int i = 0; i < pontos.Count; i++)
             {
                 mtemp = new double[3, 1] { { p_originais[i].X }, { p_originais[i].Y }, { 1 } };
                 mtemp = mult(ma, mtemp);
                 pontos[i] = new Point((int)Math.Round(mtemp[0, 0]), (int)Math.Round(mtemp[1, 0]));
+            }        
+        }
+        public void atualizar_semente()
+        {
+            if (foodfill)
+            {
+                double[,] mtemp;
+                for (int i=0; i<Semente.Count; i++)
+                {
+                   mtemp = new double[3, 1] { { Semente_original[i].X }, { Semente_original[i].Y }, { 1 } };
+                   mtemp = mult(ma, mtemp);
+                   Semente[i] = new Point((int)Math.Round(mtemp[0, 0]), (int)Math.Round(mtemp[1, 0]));
+                }
             }
         }
         private double[,] mult(double[,] A, double[,] B)

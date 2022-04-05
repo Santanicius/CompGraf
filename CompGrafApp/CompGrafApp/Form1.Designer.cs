@@ -44,7 +44,25 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.cb_cisaReflex = new System.Windows.Forms.ComboBox();
+            this.cb_xy = new System.Windows.Forms.ComboBox();
+            this.bt_cisa = new System.Windows.Forms.Button();
+            this.tb_xy = new System.Windows.Forms.TextBox();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.tb_y2 = new System.Windows.Forms.TextBox();
+            this.cb_trans = new System.Windows.Forms.ComboBox();
+            this.bt_rotacao = new System.Windows.Forms.Button();
+            this.lb_y = new System.Windows.Forms.Label();
+            this.tb_angulo = new System.Windows.Forms.TextBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.rb_centro = new System.Windows.Forms.RadioButton();
+            this.rb_origem = new System.Windows.Forms.RadioButton();
+            this.lb_angulo = new System.Windows.Forms.Label();
+            this.tb_x2 = new System.Windows.Forms.TextBox();
+            this.lb_x = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
             this.tb_y = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.bt_translacao = new System.Windows.Forms.Button();
@@ -54,19 +72,18 @@
             this.index = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.cx = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.cy = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.bt_rotacao = new System.Windows.Forms.Button();
-            this.tb_angulo = new System.Windows.Forms.TextBox();
-            this.lb_angulo = new System.Windows.Forms.Label();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.rb_origem = new System.Windows.Forms.RadioButton();
-            this.rb_centro = new System.Windows.Forms.RadioButton();
-            this.cb_transf = new System.Windows.Forms.ComboBox();
-            this.cb_trans = new System.Windows.Forms.ComboBox();
-            this.tb_y2 = new System.Windows.Forms.TextBox();
-            this.lb_y = new System.Windows.Forms.Label();
-            this.tb_x2 = new System.Windows.Forms.TextBox();
-            this.lb_x = new System.Windows.Forms.Label();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.lv_policolorir = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.bt_cor = new System.Windows.Forms.Button();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.label4 = new System.Windows.Forms.Label();
+            this.cb_foodfill = new System.Windows.Forms.CheckBox();
+            this.cb_scanline = new System.Windows.Forms.CheckBox();
+            this.colorDialog = new System.Windows.Forms.ColorDialog();
+            this.lb_limpar = new System.Windows.Forms.LinkLabel();
             this.gb_primitivas.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb_quadro)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -74,9 +91,12 @@
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            this.panel1.SuspendLayout();
+            this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.panel1.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            this.panel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // gb_primitivas
@@ -139,7 +159,7 @@
             // pb_quadro
             // 
             this.pb_quadro.BackColor = System.Drawing.Color.White;
-            this.pb_quadro.Location = new System.Drawing.Point(229, 24);
+            this.pb_quadro.Location = new System.Drawing.Point(229, 29);
             this.pb_quadro.Name = "pb_quadro";
             this.pb_quadro.Size = new System.Drawing.Size(702, 466);
             this.pb_quadro.TabIndex = 1;
@@ -242,7 +262,8 @@
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(1, 2);
+            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Location = new System.Drawing.Point(1, 7);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(222, 488);
@@ -265,6 +286,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.panel3);
             this.tabPage2.Controls.Add(this.panel2);
             this.tabPage2.Controls.Add(this.panel1);
             this.tabPage2.Controls.Add(this.lv_poligonos);
@@ -273,95 +295,61 @@
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(214, 462);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Polígonos";
+            this.tabPage2.Text = "Transformações";
             this.tabPage2.UseVisualStyleBackColor = true;
             this.tabPage2.Click += new System.EventHandler(this.tabPage2_Click);
             // 
-            // panel1
+            // panel3
             // 
-            this.panel1.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.panel1.Controls.Add(this.cb_transf);
-            this.panel1.Controls.Add(this.tb_y);
-            this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.bt_translacao);
-            this.panel1.Controls.Add(this.tb_x);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Location = new System.Drawing.Point(8, 140);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(120, 125);
-            this.panel1.TabIndex = 6;
-            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+            this.panel3.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.panel3.Controls.Add(this.cb_cisaReflex);
+            this.panel3.Controls.Add(this.cb_xy);
+            this.panel3.Controls.Add(this.bt_cisa);
+            this.panel3.Controls.Add(this.tb_xy);
+            this.panel3.Location = new System.Drawing.Point(106, 140);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(100, 125);
+            this.panel3.TabIndex = 17;
             // 
-            // tb_y
+            // cb_cisaReflex
             // 
-            this.tb_y.Location = new System.Drawing.Point(29, 63);
-            this.tb_y.Name = "tb_y";
-            this.tb_y.Size = new System.Drawing.Size(47, 20);
-            this.tb_y.TabIndex = 13;
+            this.cb_cisaReflex.FormattingEnabled = true;
+            this.cb_cisaReflex.Items.AddRange(new object[] {
+            "Cisalhamento",
+            "Reflexão"});
+            this.cb_cisaReflex.Location = new System.Drawing.Point(7, 9);
+            this.cb_cisaReflex.Name = "cb_cisaReflex";
+            this.cb_cisaReflex.Size = new System.Drawing.Size(90, 21);
+            this.cb_cisaReflex.TabIndex = 17;
+            this.cb_cisaReflex.SelectedIndexChanged += new System.EventHandler(this.cb_cisaReflex_SelectedIndexChanged);
             // 
-            // label3
+            // cb_xy
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(11, 66);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(17, 13);
-            this.label3.TabIndex = 14;
-            this.label3.Text = "Y:";
+            this.cb_xy.FormattingEnabled = true;
+            this.cb_xy.Items.AddRange(new object[] {
+            "X",
+            "Y"});
+            this.cb_xy.Location = new System.Drawing.Point(7, 52);
+            this.cb_xy.Name = "cb_xy";
+            this.cb_xy.Size = new System.Drawing.Size(34, 21);
+            this.cb_xy.TabIndex = 13;
             // 
-            // bt_translacao
+            // bt_cisa
             // 
-            this.bt_translacao.Location = new System.Drawing.Point(18, 94);
-            this.bt_translacao.Name = "bt_translacao";
-            this.bt_translacao.Size = new System.Drawing.Size(62, 23);
-            this.bt_translacao.TabIndex = 12;
-            this.bt_translacao.Text = "Aplicar";
-            this.bt_translacao.UseVisualStyleBackColor = true;
-            this.bt_translacao.Click += new System.EventHandler(this.bt_translacao_Click);
+            this.bt_cisa.Location = new System.Drawing.Point(14, 94);
+            this.bt_cisa.Name = "bt_cisa";
+            this.bt_cisa.Size = new System.Drawing.Size(62, 23);
+            this.bt_cisa.TabIndex = 12;
+            this.bt_cisa.Text = "Aplicar";
+            this.bt_cisa.UseVisualStyleBackColor = true;
+            this.bt_cisa.Click += new System.EventHandler(this.bt_cisa_Click);
             // 
-            // tb_x
+            // tb_xy
             // 
-            this.tb_x.Location = new System.Drawing.Point(29, 39);
-            this.tb_x.Name = "tb_x";
-            this.tb_x.Size = new System.Drawing.Size(47, 20);
-            this.tb_x.TabIndex = 7;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(11, 42);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(17, 13);
-            this.label2.TabIndex = 9;
-            this.label2.Text = "X:";
-            // 
-            // lv_poligonos
-            // 
-            this.lv_poligonos.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.index,
-            this.cx,
-            this.cy});
-            this.lv_poligonos.FullRowSelect = true;
-            this.lv_poligonos.HideSelection = false;
-            this.lv_poligonos.Location = new System.Drawing.Point(8, 19);
-            this.lv_poligonos.MultiSelect = false;
-            this.lv_poligonos.Name = "lv_poligonos";
-            this.lv_poligonos.Size = new System.Drawing.Size(198, 107);
-            this.lv_poligonos.TabIndex = 6;
-            this.lv_poligonos.UseCompatibleStateImageBehavior = false;
-            this.lv_poligonos.View = System.Windows.Forms.View.Details;
-            // 
-            // index
-            // 
-            this.index.Text = "Polígono";
-            this.index.Width = 57;
-            // 
-            // cx
-            // 
-            this.cx.Text = "CentroX";
-            // 
-            // cy
-            // 
-            this.cy.Text = "CentroY";
+            this.tb_xy.Location = new System.Drawing.Point(47, 52);
+            this.tb_xy.Name = "tb_xy";
+            this.tb_xy.Size = new System.Drawing.Size(47, 20);
+            this.tb_xy.TabIndex = 7;
             // 
             // panel2
             // 
@@ -376,11 +364,30 @@
             this.panel2.Controls.Add(this.lb_angulo);
             this.panel2.Controls.Add(this.tb_x2);
             this.panel2.Controls.Add(this.lb_x);
-            this.panel2.Location = new System.Drawing.Point(8, 274);
+            this.panel2.Location = new System.Drawing.Point(8, 285);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(184, 143);
             this.panel2.TabIndex = 15;
             this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
+            // 
+            // tb_y2
+            // 
+            this.tb_y2.Location = new System.Drawing.Point(127, 66);
+            this.tb_y2.Name = "tb_y2";
+            this.tb_y2.Size = new System.Drawing.Size(47, 20);
+            this.tb_y2.TabIndex = 19;
+            // 
+            // cb_trans
+            // 
+            this.cb_trans.FormattingEnabled = true;
+            this.cb_trans.Items.AddRange(new object[] {
+            "Rotação",
+            "Escala"});
+            this.cb_trans.Location = new System.Drawing.Point(10, 7);
+            this.cb_trans.Name = "cb_trans";
+            this.cb_trans.Size = new System.Drawing.Size(91, 21);
+            this.cb_trans.TabIndex = 6;
+            this.cb_trans.SelectedIndexChanged += new System.EventHandler(this.cb_trans_SelectedIndexChanged);
             // 
             // bt_rotacao
             // 
@@ -393,6 +400,15 @@
             this.bt_rotacao.UseVisualStyleBackColor = true;
             this.bt_rotacao.Click += new System.EventHandler(this.bt_rotacao_Click);
             // 
+            // lb_y
+            // 
+            this.lb_y.AutoSize = true;
+            this.lb_y.Location = new System.Drawing.Point(109, 69);
+            this.lb_y.Name = "lb_y";
+            this.lb_y.Size = new System.Drawing.Size(17, 13);
+            this.lb_y.TabIndex = 20;
+            this.lb_y.Text = "Y:";
+            // 
             // tb_angulo
             // 
             this.tb_angulo.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -400,16 +416,6 @@
             this.tb_angulo.Name = "tb_angulo";
             this.tb_angulo.Size = new System.Drawing.Size(47, 20);
             this.tb_angulo.TabIndex = 7;
-            // 
-            // lb_angulo
-            // 
-            this.lb_angulo.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.lb_angulo.AutoSize = true;
-            this.lb_angulo.Location = new System.Drawing.Point(127, 35);
-            this.lb_angulo.Name = "lb_angulo";
-            this.lb_angulo.Size = new System.Drawing.Size(40, 13);
-            this.lb_angulo.TabIndex = 9;
-            this.lb_angulo.Text = "Ângulo";
             // 
             // groupBox2
             // 
@@ -422,6 +428,16 @@
             this.groupBox2.TabIndex = 6;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Em relação";
+            // 
+            // rb_centro
+            // 
+            this.rb_centro.AutoSize = true;
+            this.rb_centro.Location = new System.Drawing.Point(6, 19);
+            this.rb_centro.Name = "rb_centro";
+            this.rb_centro.Size = new System.Drawing.Size(55, 17);
+            this.rb_centro.TabIndex = 16;
+            this.rb_centro.Text = "centro";
+            this.rb_centro.UseVisualStyleBackColor = true;
             // 
             // rb_origem
             // 
@@ -436,53 +452,15 @@
             this.rb_origem.UseVisualStyleBackColor = true;
             this.rb_origem.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
             // 
-            // rb_centro
+            // lb_angulo
             // 
-            this.rb_centro.AutoSize = true;
-            this.rb_centro.Location = new System.Drawing.Point(6, 19);
-            this.rb_centro.Name = "rb_centro";
-            this.rb_centro.Size = new System.Drawing.Size(55, 17);
-            this.rb_centro.TabIndex = 16;
-            this.rb_centro.Text = "centro";
-            this.rb_centro.UseVisualStyleBackColor = true;
-            // 
-            // cb_transf
-            // 
-            this.cb_transf.FormattingEnabled = true;
-            this.cb_transf.Items.AddRange(new object[] {
-            "Translação"});
-            this.cb_transf.Location = new System.Drawing.Point(14, 9);
-            this.cb_transf.Name = "cb_transf";
-            this.cb_transf.Size = new System.Drawing.Size(91, 21);
-            this.cb_transf.TabIndex = 16;
-            // 
-            // cb_trans
-            // 
-            this.cb_trans.FormattingEnabled = true;
-            this.cb_trans.Items.AddRange(new object[] {
-            "Rotação",
-            "Escala"});
-            this.cb_trans.Location = new System.Drawing.Point(10, 7);
-            this.cb_trans.Name = "cb_trans";
-            this.cb_trans.Size = new System.Drawing.Size(91, 21);
-            this.cb_trans.TabIndex = 6;
-            this.cb_trans.SelectedIndexChanged += new System.EventHandler(this.cb_trans_SelectedIndexChanged);
-            // 
-            // tb_y2
-            // 
-            this.tb_y2.Location = new System.Drawing.Point(127, 66);
-            this.tb_y2.Name = "tb_y2";
-            this.tb_y2.Size = new System.Drawing.Size(47, 20);
-            this.tb_y2.TabIndex = 19;
-            // 
-            // lb_y
-            // 
-            this.lb_y.AutoSize = true;
-            this.lb_y.Location = new System.Drawing.Point(109, 69);
-            this.lb_y.Name = "lb_y";
-            this.lb_y.Size = new System.Drawing.Size(17, 13);
-            this.lb_y.TabIndex = 20;
-            this.lb_y.Text = "Y:";
+            this.lb_angulo.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lb_angulo.AutoSize = true;
+            this.lb_angulo.Location = new System.Drawing.Point(127, 35);
+            this.lb_angulo.Name = "lb_angulo";
+            this.lb_angulo.Size = new System.Drawing.Size(40, 13);
+            this.lb_angulo.TabIndex = 9;
+            this.lb_angulo.Text = "Ângulo";
             // 
             // tb_x2
             // 
@@ -500,12 +478,221 @@
             this.lb_x.TabIndex = 18;
             this.lb_x.Text = "X:";
             // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.tb_y);
+            this.panel1.Controls.Add(this.label3);
+            this.panel1.Controls.Add(this.bt_translacao);
+            this.panel1.Controls.Add(this.tb_x);
+            this.panel1.Controls.Add(this.label2);
+            this.panel1.Location = new System.Drawing.Point(8, 140);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(92, 125);
+            this.panel1.TabIndex = 6;
+            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(10, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(60, 13);
+            this.label1.TabIndex = 15;
+            this.label1.Text = "Translação";
+            // 
+            // tb_y
+            // 
+            this.tb_y.Location = new System.Drawing.Point(24, 63);
+            this.tb_y.Name = "tb_y";
+            this.tb_y.Size = new System.Drawing.Size(47, 20);
+            this.tb_y.TabIndex = 13;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 66);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(17, 13);
+            this.label3.TabIndex = 14;
+            this.label3.Text = "Y:";
+            // 
+            // bt_translacao
+            // 
+            this.bt_translacao.Location = new System.Drawing.Point(13, 94);
+            this.bt_translacao.Name = "bt_translacao";
+            this.bt_translacao.Size = new System.Drawing.Size(62, 23);
+            this.bt_translacao.TabIndex = 12;
+            this.bt_translacao.Text = "Aplicar";
+            this.bt_translacao.UseVisualStyleBackColor = true;
+            this.bt_translacao.Click += new System.EventHandler(this.bt_translacao_Click);
+            // 
+            // tb_x
+            // 
+            this.tb_x.Location = new System.Drawing.Point(24, 39);
+            this.tb_x.Name = "tb_x";
+            this.tb_x.Size = new System.Drawing.Size(47, 20);
+            this.tb_x.TabIndex = 7;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 42);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(17, 13);
+            this.label2.TabIndex = 9;
+            this.label2.Text = "X:";
+            // 
+            // lv_poligonos
+            // 
+            this.lv_poligonos.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.index,
+            this.cx,
+            this.cy});
+            this.lv_poligonos.FullRowSelect = true;
+            this.lv_poligonos.HideSelection = false;
+            this.lv_poligonos.Location = new System.Drawing.Point(8, 19);
+            this.lv_poligonos.MultiSelect = false;
+            this.lv_poligonos.Name = "lv_poligonos";
+            this.lv_poligonos.Size = new System.Drawing.Size(198, 92);
+            this.lv_poligonos.TabIndex = 6;
+            this.lv_poligonos.UseCompatibleStateImageBehavior = false;
+            this.lv_poligonos.View = System.Windows.Forms.View.Details;
+            this.lv_poligonos.SelectedIndexChanged += new System.EventHandler(this.lv_poligonos_SelectedIndexChanged);
+            this.lv_poligonos.MouseClick += new System.Windows.Forms.MouseEventHandler(this.lv_poligonos_MouseClick);
+            // 
+            // index
+            // 
+            this.index.Text = "Polígono";
+            this.index.Width = 57;
+            // 
+            // cx
+            // 
+            this.cx.Text = "CentroX";
+            // 
+            // cy
+            // 
+            this.cy.Text = "CentroY";
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.lv_policolorir);
+            this.tabPage3.Controls.Add(this.bt_cor);
+            this.tabPage3.Controls.Add(this.panel4);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(214, 462);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Colorir";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            this.tabPage3.Click += new System.EventHandler(this.tabPage3_Click);
+            // 
+            // lv_policolorir
+            // 
+            this.lv_policolorir.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1,
+            this.columnHeader2,
+            this.columnHeader3});
+            this.lv_policolorir.FullRowSelect = true;
+            this.lv_policolorir.HideSelection = false;
+            this.lv_policolorir.Location = new System.Drawing.Point(8, 20);
+            this.lv_policolorir.MultiSelect = false;
+            this.lv_policolorir.Name = "lv_policolorir";
+            this.lv_policolorir.Size = new System.Drawing.Size(198, 92);
+            this.lv_policolorir.TabIndex = 7;
+            this.lv_policolorir.UseCompatibleStateImageBehavior = false;
+            this.lv_policolorir.View = System.Windows.Forms.View.Details;
+            this.lv_policolorir.SelectedIndexChanged += new System.EventHandler(this.lv_policolorir_SelectedIndexChanged);
+            this.lv_policolorir.MouseClick += new System.Windows.Forms.MouseEventHandler(this.lv_poligonos_MouseClick);
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "Polígono";
+            this.columnHeader1.Width = 57;
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "CentroX";
+            // 
+            // columnHeader3
+            // 
+            this.columnHeader3.Text = "CentroY";
+            // 
+            // bt_cor
+            // 
+            this.bt_cor.Location = new System.Drawing.Point(8, 214);
+            this.bt_cor.Name = "bt_cor";
+            this.bt_cor.Size = new System.Drawing.Size(106, 28);
+            this.bt_cor.TabIndex = 3;
+            this.bt_cor.Text = "Escolha uma cor";
+            this.bt_cor.UseVisualStyleBackColor = true;
+            this.bt_cor.Click += new System.EventHandler(this.bt_cor_Click);
+            // 
+            // panel4
+            // 
+            this.panel4.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.panel4.Controls.Add(this.label4);
+            this.panel4.Controls.Add(this.cb_foodfill);
+            this.panel4.Controls.Add(this.cb_scanline);
+            this.panel4.Location = new System.Drawing.Point(8, 130);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(176, 64);
+            this.panel4.TabIndex = 2;
+            // 
+            // label4
+            // 
+            this.label4.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(3, 9);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(130, 13);
+            this.label4.TabIndex = 2;
+            this.label4.Text = "Preenchimento de regiões";
+            // 
+            // cb_foodfill
+            // 
+            this.cb_foodfill.AutoSize = true;
+            this.cb_foodfill.Location = new System.Drawing.Point(6, 31);
+            this.cb_foodfill.Name = "cb_foodfill";
+            this.cb_foodfill.Size = new System.Drawing.Size(65, 17);
+            this.cb_foodfill.TabIndex = 0;
+            this.cb_foodfill.Text = "Food Fill";
+            this.cb_foodfill.UseVisualStyleBackColor = true;
+            this.cb_foodfill.CheckedChanged += new System.EventHandler(this.cb_foodfill_CheckedChanged);
+            // 
+            // cb_scanline
+            // 
+            this.cb_scanline.AutoSize = true;
+            this.cb_scanline.Location = new System.Drawing.Point(92, 31);
+            this.cb_scanline.Name = "cb_scanline";
+            this.cb_scanline.Size = new System.Drawing.Size(67, 17);
+            this.cb_scanline.TabIndex = 1;
+            this.cb_scanline.Text = "Scanline";
+            this.cb_scanline.UseVisualStyleBackColor = true;
+            this.cb_scanline.CheckedChanged += new System.EventHandler(this.cb_scanline_CheckedChanged);
+            // 
+            // lb_limpar
+            // 
+            this.lb_limpar.AutoSize = true;
+            this.lb_limpar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lb_limpar.LinkColor = System.Drawing.Color.White;
+            this.lb_limpar.Location = new System.Drawing.Point(885, 11);
+            this.lb_limpar.Name = "lb_limpar";
+            this.lb_limpar.Size = new System.Drawing.Size(46, 15);
+            this.lb_limpar.TabIndex = 6;
+            this.lb_limpar.TabStop = true;
+            this.lb_limpar.Text = "Limpar";
+            this.lb_limpar.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lb_limpar_LinkClicked);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(58)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(943, 502);
+            this.Controls.Add(this.lb_limpar);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.pb_quadro);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -522,13 +709,19 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -565,12 +758,29 @@
         private System.Windows.Forms.RadioButton rb_centro;
         private System.Windows.Forms.RadioButton rb_origem;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.ComboBox cb_transf;
         private System.Windows.Forms.ComboBox cb_trans;
         private System.Windows.Forms.TextBox tb_y2;
         private System.Windows.Forms.Label lb_y;
         private System.Windows.Forms.TextBox tb_x2;
         private System.Windows.Forms.Label lb_x;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Button bt_cisa;
+        private System.Windows.Forms.TextBox tb_xy;
+        private System.Windows.Forms.ComboBox cb_cisaReflex;
+        private System.Windows.Forms.ComboBox cb_xy;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.ColorDialog colorDialog;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.CheckBox cb_foodfill;
+        private System.Windows.Forms.CheckBox cb_scanline;
+        private System.Windows.Forms.LinkLabel lb_limpar;
+        private System.Windows.Forms.ListView lv_policolorir;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.ColumnHeader columnHeader2;
+        private System.Windows.Forms.ColumnHeader columnHeader3;
+        private System.Windows.Forms.Button bt_cor;
     }
 }
 

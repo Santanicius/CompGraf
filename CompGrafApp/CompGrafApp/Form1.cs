@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static CompGrafApp.Poligono;
@@ -15,9 +16,12 @@ namespace CompGrafApp
     {
         private Point p_inicial, p_final;
         private Bitmap bmp, bmp_copia;
-        private bool op_poli, p_clique;
+        private bool op_poli, p_clique, foodfill;
         private List<Poligono> poligonos;
         private Poligono poli;
+        private ListaET L;
+        private Color cor_escolhida;
+        //new int[10];
         public Form1()
         {
             InitializeComponent();
@@ -30,8 +34,9 @@ namespace CompGrafApp
 
             p_clique = true;
             rb_bresenham.Checked = true;
-
+            foodfill = false;
             poligonos = new List<Poligono>();
+            cor_escolhida = Color.Green;
             initPInicial();
         }
         private void initPInicial()
@@ -102,7 +107,7 @@ namespace CompGrafApp
 
         private void pb_arrastando(object sender, MouseEventArgs e)
         {
-            if (p_inicial.X != -1 && e.X>0 && e.X<pb_quadro.Width && e.Y>0 && e.Y<pb_quadro.Height)
+            if (!foodfill && p_inicial.X != -1 && e.X>0 && e.X<pb_quadro.Width && e.Y>0 && e.Y<pb_quadro.Height)
             {
                 p_final.X = e.X;
                 p_final.Y = e.Y;
@@ -222,8 +227,9 @@ namespace CompGrafApp
         }
         private void mySetPixel(double x, double y, Color cor)
         {
-            if(x>=0 && x<pb_quadro.Width && y>=0 && y<pb_quadro.Height)
+            if (x >= 0 && x < pb_quadro.Width && y >= 0 && y < pb_quadro.Height)
                 ((Bitmap)pb_quadro.Image).SetPixel((int)x, (int)y, cor);
+
         }
         private void bresenham(Point p1, Point p2, Color cor)
         {
@@ -341,23 +347,129 @@ namespace CompGrafApp
         {
             if (op_poli)
             {
-                if (p_clique)
+                if (!foodfill)
                 {
-                    poli = new Poligono();
-                    p_inicial.X = e.X; p_inicial.Y = e.Y;
-                    poli.inserir(p_inicial);
-                    p_clique = false;
+                    if (p_clique)
+                    {
+                        poli = new Poligono();
+                        p_inicial.X = e.X; p_inicial.Y = e.Y;
+                        poli.inserir(p_inicial);
+                        p_clique = false;
+                    }
+                    else
+                    {
+                        pb_quadro.Image = bmp_copia;
+                        bresenham(p_inicial, p_final, Color.Black);
+                        poli.inserir(p_final);
+                        p_inicial.X = e.X; p_inicial.Y = e.Y;
+                    }
                 }
                 else
                 {
-                    pb_quadro.Image = bmp_copia;
-                    bresenham(p_inicial, p_final,Color.Black);
-                    poli.inserir(p_final);
-                    p_inicial.X = e.X; p_inicial.Y = e.Y;
+                    food_fill(e.Location, cor_escolhida,true);
+                        
+                }
+                
+            }
+        }
+        private void food_fill(Point semente, Color cor, bool inserir)
+        {
+            double min_x, min_y, max_x, max_y;
+            int i;//posição do polígono que contem o ponto semente
+
+            pb_quadro.Image = bmp_copia;
+
+            redesenhar_poligonos(Color.Black);
+            for (i = 0; i < poligonos.Count && wn(semente, poligonos[i]) == 0; i++) ;
+           
+            if (i < poligonos.Count)
+            {
+                if(inserir)
+                {
+                    poligonos[i].inserirSemente(semente);
+                }
+                min_x = max_x = poligonos[i].Pontos[0].X;
+                min_y = max_y = poligonos[i].Pontos[0].Y;
+                for (int k = 0; k < poligonos[i].Pontos.Count; k++)
+                {
+                    min_x = Math.Min(min_x, poligonos[i].Pontos[k].X);
+                    max_x = Math.Max(max_x, poligonos[i].Pontos[k].X);
+                    min_y = Math.Min(min_y, poligonos[i].Pontos[k].Y);
+                    max_y = Math.Max(max_y, poligonos[i].Pontos[k].Y);
+                }
+                Stack<Point> pilha = new Stack<Point>();
+                int[,] vizinhos = new int[4, 2] { { -1, 0 }, { 0, -1 }, { 1, 0 }, { 0, 1 } };
+                Point p;
+                int x, y;
+                pilha.Push(semente);
+                while (pilha.Count > 0)
+                {
+                    p = pilha.Pop();
+                    mySetPixel(p.X, p.Y, cor);
+                    for (int j = 0; j < 4; j++)
+                    {
+                        x = p.X + vizinhos[j, 0];
+                        y = p.Y + vizinhos[j, 1];
+                        if (x >= min_x && x <= max_x && y >= min_y && y <= max_y)
+                            if(x>=0 && x<pb_quadro.Width && y>=0 && y<pb_quadro.Height)
+                                if (!isCorNova(cor,x, y) && !isBlack(x, y))
+                                    pilha.Push(new Point(x, y));
+                    }
+                }
+                if (!isWhite(cor) && poligonos[i].Cor.IsEmpty)
+                {
+                    poligonos[i].Cor = cor;
+                    poligonos[i].Foodfill = true;
+                    if (poligonos[i].Scanline)
+                        poligonos[i].Scanline = false;
                 }
             }
         }
-
+        
+        private int wn(Point p, Poligono poli)
+        {
+            int n = poli.Pontos.Count, wn=0;
+            Point pi, pf;
+            for(int i=0; i<n; i++)
+            {
+                pi = new Point(poli.Pontos[i].X,poli.Pontos[i].Y);
+                if (i == n - 1)
+                    pf = new Point(poli.Pontos[0].X, poli.Pontos[0].Y);
+                else
+                    pf = new Point(poli.Pontos[i + 1].X, poli.Pontos[i + 1].Y);
+                if(pi.Y <= p.Y)
+                {
+                    if (pf.Y > p.Y)
+                        if (isLeft(pi, pf, p) > 0)
+                            wn++;
+                }
+                else
+                {
+                    if (pf.Y <= p.Y)
+                        if (isLeft(pi, pf, p) < 0)
+                            wn--;
+                }
+            }
+            return wn;
+        }
+        private int isLeft(Point pi, Point pf, Point p)
+        {
+            return (pf.X - pi.X) * (p.Y - pi.Y) - (p.X - pi.X) * (pf.Y - pi.Y);
+        }
+        private bool isCorNova(Color cor, int x, int y)
+        {
+            return ((Bitmap)pb_quadro.Image).GetPixel(x, y).A == cor.A &&
+            ((Bitmap)pb_quadro.Image).GetPixel(x, y).R == cor.R &&
+            ((Bitmap)pb_quadro.Image).GetPixel(x, y).G == cor.G &&
+            ((Bitmap)pb_quadro.Image).GetPixel(x, y).B == cor.B;
+        }
+        private bool isBlack(int x, int y)
+        {
+            return ((Bitmap)pb_quadro.Image).GetPixel(x, y).A == 255 &&
+            ((Bitmap)pb_quadro.Image).GetPixel(x, y).R == 0 &&
+            ((Bitmap)pb_quadro.Image).GetPixel(x, y).G == 0 &&
+            ((Bitmap)pb_quadro.Image).GetPixel(x, y).B == 0;
+        }
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
         {
 
@@ -374,14 +486,20 @@ namespace CompGrafApp
 
         private void tabControl1_Click(object sender, EventArgs e)
         {
-            op_poli = false;
-            if (tabControl1.SelectedTab.Text.Equals("Polígonos"))
+            op_poli = true;
+            if (tabControl1.SelectedTab.Text.Equals("Transformações"))
             {
-                cb_transf.SelectedIndex = 0;
-                cb_trans.SelectedIndex = 0;
-                op_poli = true;
+                cb_cisaReflex.SelectedIndex = 0;
+                cb_xy.SelectedIndex = 0;
+                cb_trans.SelectedIndex = 0;                
                 initRb();
                 rb_bresenham.Checked = true;
+            }
+            if (tabControl1.SelectedTab.Text.Equals("Primitivas"))
+            {
+                op_poli = false;
+                cb_foodfill.Checked = false;
+                cb_scanline.Checked = false;
             }
         }
 
@@ -395,18 +513,19 @@ namespace CompGrafApp
             //translação
             if (tb_x.Text != "" && tb_y.Text != "")
             {
-                Console.WriteLine(cb_transf.SelectedItem.ToString());
                 pb_quadro.Image = bmp_copia;
                 int i = lv_poligonos.SelectedItems[0].Index;
+                pre_transformacao(poligonos[i], Color.White);
                 redesenhar_selecionado(Color.White);
-                if (cb_transf.SelectedItem.ToString() == "Translação")
-                    poligonos[i].transladar(Double.Parse(tb_x.Text), Double.Parse(tb_y.Text));
-
+                poligonos[i].transladar(Double.Parse(tb_x.Text), Double.Parse(tb_y.Text));
+                poligonos[i].atualizar_semente();
+                
+                redesenhar_selecionado(Color.Black);
+                pre_transformacao(poligonos[i], poligonos[i].Cor);
                 atualizarList();
                 lv_poligonos.Items[i].Selected = true;
-                redesenhar_selecionado(Color.Black);
             }
-            
+
         }
         private void redesenhar_selecionado(Color cor)
         {
@@ -419,6 +538,17 @@ namespace CompGrafApp
                     bresenham(poligonos[i].Pontos[k], poligonos[i].Pontos[0], cor);
             }
         }
+        private void redesenhar_poligonos(Color cor)
+        {
+            for (int k = 0; k < poligonos.Count; k++)
+                for(int i=0; i<poligonos[k].Pontos.Count; i++)
+                {
+                    if (i != (poligonos[k].Pontos.Count - 1))
+                        bresenham(poligonos[k].Pontos[i], poligonos[k].Pontos[i + 1], cor);
+                    else
+                        bresenham(poligonos[k].Pontos[i], poligonos[k].Pontos[0], cor);
+                }
+        }
         private void pb_quadro_DoubleClick(object sender, EventArgs e)
         {
             if (op_poli) {
@@ -428,28 +558,58 @@ namespace CompGrafApp
                 lv_poligonos.Items.Add("P"+poligonos.Count);
                 lv_poligonos.Items[poligonos.Count - 1].SubItems.Add((Math.Truncate(poli.Cx*100)/100).ToString());
                 lv_poligonos.Items[poligonos.Count - 1].SubItems.Add((Math.Truncate(poli.Cy * 100) / 100).ToString());
+                lv_policolorir.Items.Add("P" + poligonos.Count);
+                lv_policolorir.Items[poligonos.Count - 1].SubItems.Add((Math.Truncate(poli.Cx * 100) / 100).ToString());
+                lv_policolorir.Items[poligonos.Count - 1].SubItems.Add((Math.Truncate(poli.Cy * 100) / 100).ToString());
                 initPInicial();
             }
         }
         private void bt_rotacao_Click(object sender, EventArgs e)
         {
-            //rotação
             //verificar campos vazios
             if (lv_poligonos.SelectedItems.Count>0) {
-                Console.WriteLine("Entrei");
                 pb_quadro.Image = bmp_copia;
+
                 int i = lv_poligonos.SelectedItems[0].Index;
+                pre_transformacao(poligonos[i],Color.White);
                 redesenhar_selecionado(Color.White);
-                Console.WriteLine("selecionado: " + cb_trans.SelectedItem.ToString());
                 if (cb_trans.SelectedItem.ToString() == "Rotação")
                     rotacao();
                 else if (cb_trans.SelectedItem.ToString() == "Escala")
                     escala();
 
+                redesenhar_selecionado(Color.Black);
+                pre_transformacao(poligonos[i], poligonos[i].Cor);
 
                 atualizarList();
                 lv_poligonos.Items[i].Selected = true;
-                redesenhar_selecionado(Color.Black);
+                pb_quadro.Image = bmp_copia;
+                //restaurar_poligonos();
+            }
+        }
+        private void restaurar_poligonos()
+        {
+            pb_quadro.Image = bmp_copia;
+            redesenhar_poligonos(Color.Black);
+            for(int i=0; i<poligonos.Count; i++)
+            {
+                pre_transformacao(poligonos[i], Color.White);
+                redesenhar_poligonos(Color.Black);
+                pre_transformacao(poligonos[i], poligonos[i].Cor);
+            }
+            redesenhar_poligonos(Color.Black);
+        }
+        private void pre_transformacao(Poligono poli,Color cor)
+        {
+            
+            if (poli.Foodfill)
+            {
+                for(int i=0; i<poli.Semente.Count; i++)
+                    food_fill(poli.Semente[i],cor,false);
+            }
+            else if (poli.Scanline)
+            {
+                scanline(cor);
             }
         }
         private void rotacao()
@@ -463,10 +623,12 @@ namespace CompGrafApp
                 poligonos[i].rotacionar(Double.Parse(tb_angulo.Text));
                 //transladar para a posição original
                 poligonos[i].transladar(poligonos[i].Cx, poligonos[i].Cy);
+                poligonos[i].atualizar_semente();
             }
             else
             {
                 poligonos[i].rotacionar(Double.Parse(tb_angulo.Text));
+                poligonos[i].atualizar_semente();
             }
         }
         private void escala()
@@ -515,17 +677,273 @@ namespace CompGrafApp
             }
         }
 
+        private void bt_cisa_Click(object sender, EventArgs e)
+        {
+            if (lv_poligonos.SelectedItems.Count > 0)
+            {
+
+                pb_quadro.Image = bmp_copia;
+                int i = lv_poligonos.SelectedItems[0].Index;
+
+                pre_transformacao(poligonos[i], Color.White);
+                redesenhar_selecionado(Color.White);
+                poligonos[i].transladar(-poligonos[i].Cx, -poligonos[i].Cy);
+                if (cb_cisaReflex.SelectedItem.ToString() == "Cisalhamento")
+                {
+                    if(cb_xy.SelectedItem.ToString()=="X")
+                        poligonos[i].cisalhamentoX(Double.Parse(tb_xy.Text));
+                    else
+                        poligonos[i].cisalhamentoY(Double.Parse(tb_xy.Text));
+                }
+                else
+                {
+                    if (cb_xy.SelectedItem.ToString() == "X")
+                        poligonos[i].reflexaoX();
+                    else
+                        poligonos[i].reflexaoY();
+                }
+                poligonos[i].transladar(poligonos[i].Cx, poligonos[i].Cy);
+                poligonos[i].atualizar_semente();
+                pre_transformacao(poligonos[i], cor_escolhida);
+                atualizarList();
+                lv_poligonos.Items[i].Selected = true;
+                redesenhar_selecionado(Color.Black);
+            }
+        }
+
+        private void cb_cisaReflex_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cb_cisaReflex.SelectedItem.ToString() == "Reflexão")
+            {
+                tb_xy.Hide();
+            }
+            else
+                tb_xy.Show();
+        }
+
+        private void tabPage3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cb_foodfill_CheckedChanged(object sender, EventArgs e)
+        {
+            foodfill = !foodfill;
+            if (cb_foodfill.Checked)
+                cb_scanline.Checked = false;
+        }
+
+        private void cb_scanline_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cb_scanline.Checked)
+            {
+                cb_foodfill.Checked = false;
+                foodfill = false;
+                scanline(cor_escolhida);
+                redesenhar_poligonos(Color.Black);
+            }
+        }
+
+        private void scanline(Color cor)
+        {
+            if (lv_poligonos.SelectedItems.Count > 0)
+            {
+                pb_quadro.Image = bmp_copia;
+                int i = lv_poligonos.SelectedItems[0].Index;
+                //redesenhar_selecionado(Color.White);
+                redesenhar_poligonos(Color.Black);
+                L = new ListaET();
+                preencherET(poligonos[i]);
+                construirAET(cor);
+                if (!isWhite(cor) && poligonos[i].Cor.IsEmpty)
+                {
+                    poligonos[i].Cor = cor;
+                    poligonos[i].Scanline = true;
+                    if (poligonos[i].Foodfill)
+                        poligonos[i].Foodfill = false;
+                }
+            }
+        }
+        private bool isWhite(Color cor)
+        {
+            return cor.A==255 && cor.R==255 && cor.G==255 && cor.B==255;
+        }
+        private void construirAET(Color cor)
+        {
+            NoET AET = new NoET(0);
+            NoET aux = L.Lista;
+            CompET auxcomp = aux.Cabeca, auxcabeca, prox;
+            double y_atual;
+
+            while (aux!=null || AET.Cabeca != null)
+            {
+                auxcomp = aux.Cabeca;
+                while (auxcomp != null)
+                {
+                    //Console.WriteLine("antes de inserir: ");
+                    //AET.exibir();
+                    AET.inserir(new CompET(auxcomp.Ymax,auxcomp.Xmin,auxcomp.IncX));
+                    //Console.WriteLine("depois de inserir: ");
+                    //AET.exibir();
+                    auxcomp = auxcomp.Prox;
+                }
+                y_atual = aux.Id;
+                auxcabeca = AET.Cabeca;
+                while (auxcabeca != null)
+                {
+                    prox = auxcabeca.Prox;
+                    if (auxcabeca.Ymax == y_atual)
+                    {
+                        AET.remover(auxcabeca);
+                    }
+                    auxcabeca = prox;
+                }
+                AET.ordenar();
+                //desenhar
+                auxcabeca = AET.Cabeca;
+                while (auxcabeca!=null && auxcabeca.Prox!=null)
+                {
+                    for(double x=auxcabeca.Xmin; x<auxcabeca.Prox.Xmin; x+=0.8)
+                    {
+                        mySetPixel(x, y_atual, cor);
+                    }
+                    auxcabeca = auxcabeca.Prox.Prox;
+                }
+                //
+                AET.incrementarXmin();
+                aux = aux.Prox;
+            }
+        }
+
+        private void lv_poligonos_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (lv_poligonos.SelectedItems.Count > 0)
+            {
+                if (cb_scanline.Checked)
+                {
+                    scanline(cor_escolhida);
+                    redesenhar_poligonos(Color.Black);
+                    //redesenhar_selecionado(Color.Red);
+                }
+            }
+        }
+
+        private void lb_limpar_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            p_inicial = new Point(-1, -1);
+            p_final = new Point();
+
+
+            bmp = new Bitmap(pb_quadro.Width, pb_quadro.Height);
+            bmp_copia = new Bitmap(bmp);
+            pb_quadro.Image = bmp;
+
+            p_clique = true;
+            rb_bresenham.Checked = true;
+            foodfill = false;
+            poligonos = new List<Poligono>();
+            atualizarList();
+            initPInicial();
+        }
+
+        private void bt_cor_Click(object sender, EventArgs e)
+        {
+            if(colorDialog.ShowDialog() == DialogResult.OK)
+            {
+                if(colorDialog.Color!=Color.Black)
+                    cor_escolhida = colorDialog.Color;
+            }
+        }
+
+        private void lv_policolorir_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (lv_policolorir.SelectedItems.Count > 0)
+            {
+
+                int i = lv_policolorir.SelectedItems[0].Index;
+                lv_poligonos.Items[i].Selected = true;
+                
+            }
+        }
+
+        private void lv_poligonos_MouseClick(object sender, MouseEventArgs e)
+        {
+            /*pb_quadro.Image = bmp;
+            int i = lv_poligonos.SelectedItems[0].Index;
+            if (!poligonos[i].Cor.IsEmpty)
+            {
+                redesenhar_selecionado(Color.Black);
+                pre_transformacao(poligonos[i], Color.Red);
+
+                redesenhar_selecionado(Color.Black);
+                pb_quadro.Update();
+                Thread.Sleep(500);
+                pb_quadro.Image = bmp;
+                pre_transformacao(poligonos[i], poligonos[i].Cor);
+            }*/
+
+        }
+
+        private void preencherET(Poligono poli)
+        {
+            NoET noet;
+            CompET compet;
+            double incX;
+            int indMiny, indMaxy;
+            //Console.WriteLine("Quantidade pontos: "+poli.Pontos.Count);
+            double miny, maxy;
+            miny = poli.minY(); maxy = poli.maxY();
+            while (miny <= maxy)
+            {
+                L.inserir(new NoET(miny));
+                miny++;
+            }
+            for(int i=0; i<poli.Pontos.Count; i++)
+            {
+                //Console.WriteLine("Ponto: x: "+poli.Pontos[i].X+" y: "+poli.Pontos[i].Y);
+                if (i != poli.Pontos.Count - 1)
+                {
+                    indMiny = i + 1;
+                    indMaxy = i;
+                    if (poli.Pontos[i].Y < poli.Pontos[i + 1].Y)
+                    {
+                        indMiny = i;
+                        indMaxy = i + 1;
+                    }
+                }
+                else
+                {
+                    indMiny = 0;
+                    indMaxy = i;
+                    if (poli.Pontos[i].Y < poli.Pontos[0].Y)
+                    {
+                        indMiny = i;
+                        indMaxy = 0;
+                    }
+                }
+                noet = L.buscarNoET(poli.Pontos[indMiny].Y);
+                incX = 0;
+                if ((poli.Pontos[indMaxy].Y - poli.Pontos[indMiny].Y) != 0)
+                    incX = (double) (poli.Pontos[indMaxy].X - poli.Pontos[indMiny].X) /(double) (poli.Pontos[indMaxy].Y - poli.Pontos[indMiny].Y);
+                compet = new CompET(poli.Pontos[indMaxy].Y, poli.Pontos[indMiny].X, incX);
+                noet.inserir(compet);
+            }
+        }
         private void atualizarList()
         {
             if (op_poli)
             {
                 lv_poligonos.Items.Clear();
-                for(int i=0; i<poligonos.Count; i++)
+                lv_policolorir.Items.Clear();
+                for (int i=0; i<poligonos.Count; i++)
                 {
                     poligonos[i].calcCentro();
                     lv_poligonos.Items.Add("P" + i);
                     lv_poligonos.Items[i].SubItems.Add((Math.Truncate(poligonos[i].Cx * 100) / 100).ToString());
                     lv_poligonos.Items[i].SubItems.Add((Math.Truncate(poligonos[i].Cy * 100) / 100).ToString());
+                    lv_policolorir.Items.Add("P" + i);
+                    lv_policolorir.Items[i].SubItems.Add((Math.Truncate(poligonos[i].Cx * 100) / 100).ToString());
+                    lv_policolorir.Items[i].SubItems.Add((Math.Truncate(poligonos[i].Cy * 100) / 100).ToString());
                 }
             }
         }
